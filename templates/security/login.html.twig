@@ -1,0 +1,33 @@
+{# View du formulaire de Connexion #}
+
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<form class="formulaire" method="post">
+    {% if error %}
+        <div class="alert alert-danger">Vous avez saisi un mauvais login ou un mauvais mot de passe</div>
+    {% endif %}
+
+    <h1 style="color:#fff">Connecte Toi :</h1>
+    <label for="inputUsername">Pseudo</label>
+    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus style="margin-bottom:1em;">
+    <label for="inputPassword">Mot de passe</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" required>
+
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+
+    <div>
+        <a class="registration_link" href="{{path('register')}}">Je n'ai pas encore de compte</a>
+    </div>
+
+    <button class="btn-sucess" type="submit">
+        Connexion
+    </button>
+</form>
+{% endblock %}
