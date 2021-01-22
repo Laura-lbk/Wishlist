@@ -43,6 +43,11 @@ class Personne
      */
     private $adresse;
 
+    /**
+     * @ORM\OneToOne(targetEntity=user::class, cascade={"persist", "remove"})
+     */
+    private $user;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +109,18 @@ class Personne
     public function setAdresse(?Adresse $adresse): self
     {
         $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getUser(): ?user
+    {
+        return $this->user;
+    }
+
+    public function setUser(?user $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
