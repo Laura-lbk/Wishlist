@@ -29,6 +29,11 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * @ORM\OneToOne(targetEntity=user::class, orphanRemoval=true)
+     */
+    private $personne;
+
+    /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
@@ -37,6 +42,10 @@ class User implements UserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function __toString(){
+        return $this->username;
     }
 
     /**
@@ -71,6 +80,18 @@ class User implements UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getPersonne(): ?personne
+    {
+        return $this->personne;
+    }
+
+    public function setPersonne(?personne $personne): self
+    {
+        $this->personne = $personne;
 
         return $this;
     }

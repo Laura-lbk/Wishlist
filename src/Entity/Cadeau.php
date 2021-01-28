@@ -38,6 +38,11 @@ class Cadeau
      */
     private $categorie;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Personne::class, inversedBy="cadeaux")
+     */
+    private $personne;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,6 +92,18 @@ class Cadeau
     public function setCategorie(?Categorie $categorie): self
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getPersonne(): ?Personne
+    {
+        return $this->personne;
+    }
+
+    public function setPersonne(?Personne $personne): self
+    {
+        $this->personne = $personne;
 
         return $this;
     }

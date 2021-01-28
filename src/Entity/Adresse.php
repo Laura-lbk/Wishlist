@@ -44,6 +44,10 @@ class Adresse
      */
     private $personne;
 
+    public function __toString(){
+        return $this->num . ' '. $this->rue .' '. $this->ville;
+    }
+
     public function __construct()
     {
         $this->personne = new ArrayCollection();

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PersonneRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,9 +46,19 @@ class Personne
     private $adresse;
 
     /**
-     * @ORM\OneToOne(targetEntity=user::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, orphanRemoval=true)
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Cadeau::class, mappedBy="personne")
+     */
+    private $cadeaux;
+
+    public function __construct()
+    {
+        $this->cadeaux = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -121,6 +133,36 @@ class Personne
     public function setUser(?user $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Cadeau[]
+     */
+    public function getCadeaux(): Collection
+    {
+        return $this->cadeaux;
+    }
+
+    public function addCadeaux(Cadeau $cadeaux): self
+    {
+        if (!$this->cadeaux->contains($cadeaux)) {
+            $this->cadeaux[] = $cadeaux;
+            $cadeaux->setPersonne($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCadeaux(Cadeau $cadeaux): self
+    {
+        if ($this->cadeaux->removeElement($cadeaux)) {
+            // set the owning side to null (unless already changed)
+            if ($cadeaux->getPersonne() === $this) {
+                $cadeaux->setPersonne(null);
+            }
+        }
 
         return $this;
     }

@@ -19,6 +19,16 @@ class PersonneRepository extends ServiceEntityRepository
         parent::__construct($registry, Personne::class);
     }
 
+    public function findByRue($rue){
+        return $this->createQueryBuilder('p')
+        ->leftJoin('p.adresse', 'adresse')
+        ->andWhere('adresse.rue = :val')
+        ->setParameter('val', $rue)
+        ->getQuery()
+        ->getResult()
+    ;
+    }
+
     // /**
     //  * @return Personne[] Returns an array of Personne objects
     //  */

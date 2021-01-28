@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Personne index{% endblock %}
+
+{% block body %}
+    <h1>Personne index</h1>
+
+    <p>Selectionnez une rue:</p>
+    <a class="dropdown-item" href="{{ path('personne_index')}}">Toutes les Rues</a>
+
+    {% for rue in rues %}
+        <a class="dropdown-item" href="{{ path('personne_rue', {'rue': rue.rue}) }}">{{rue.rue}}</a>
+    {% endfor %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Sexe</th>
+                <th>Adresse</th>
+                <th>Birthday</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for personne in personnes %}
+            <tr>
+                <td>{{ personne.id }}</td>
+                <td>{{ personne.nom }}</td>
+                <td>{{ personne.prenom }}</td>
+                <td>{{ personne.sexe }}</td>
+                <td>{{ personne.adresse }}</td>
+                <td>{{ personne.birthday ? personne.birthday|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('personne_show', {'id': personne.id}) }}">show</a>
+                    <a href="{{ path('personne_edit', {'id': personne.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('personne_new') }}">Create new</a>
+{% endblock %}
