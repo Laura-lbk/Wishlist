@@ -29,7 +29,7 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @ORM\OneToOne(targetEntity=user::class, orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity=Personne::class, orphanRemoval=true)
      */
     private $personne;
 

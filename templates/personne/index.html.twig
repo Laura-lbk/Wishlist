@@ -20,6 +20,7 @@
                 <th>Prenom</th>
                 <th>Sexe</th>
                 <th>Adresse</th>
+                <th>Cadeaux</th>
                 <th>Birthday</th>
                 <th>actions</th>
             </tr>
@@ -32,6 +33,10 @@
                 <td>{{ personne.prenom }}</td>
                 <td>{{ personne.sexe }}</td>
                 <td>{{ personne.adresse }}</td>
+                <td>{% for cadeau in personne.cadeaux %} 
+                    <p>{{cadeau}}</p>
+                {% endfor %}
+                <a href="{{ path('personne_show', {'id': personne.id}) }}">Voir Wishlist</a></td>
                 <td>{{ personne.birthday ? personne.birthday|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('personne_show', {'id': personne.id}) }}">show</a>

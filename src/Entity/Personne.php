@@ -51,9 +51,13 @@ class Personne
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Cadeau::class, mappedBy="personne")
+     * @ORM\OneToMany(targetEntity=Cadeau::class, mappedBy="personne", cascade={"persist"})
      */
     private $cadeaux;
+
+    public function __toString(){
+        return $this->nom . ' '. $this->prenom;
+    }
 
     public function __construct()
     {
@@ -147,10 +151,10 @@ class Personne
 
     public function addCadeaux(Cadeau $cadeaux): self
     {
-        if (!$this->cadeaux->contains($cadeaux)) {
+
             $this->cadeaux[] = $cadeaux;
             $cadeaux->setPersonne($this);
-        }
+    
 
         return $this;
     }

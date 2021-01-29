@@ -19,6 +19,21 @@ class CadeauRepository extends ServiceEntityRepository
         parent::__construct($registry, Cadeau::class);
     }
 
+    public function findbyGenre($nom, $genre){
+        return $this->createQueryBuilder('c')
+        ->leftJoin('c.categorie', 'categorie')
+        ->leftJoin('c.personne', 'personne')
+        ->where('categorie.nom = :val')
+        ->andWhere('personne.sexe = :genre')
+        ->setParameter('val', $nom)
+        ->setParameter('genre', $genre)
+        ->select('count(c)')
+        ->getQuery()
+        ->getSingleScalarResult();
+    ;
+    }
+
+
     // /**
     //  * @return Cadeau[] Returns an array of Cadeau objects
     //  */

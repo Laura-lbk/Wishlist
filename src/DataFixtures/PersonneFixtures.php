@@ -58,8 +58,10 @@ class PersonneFixtures extends Fixture implements DependentFixtureInterface
                     $personne->addCadeaux($cadeaux[rand(0,count($cadeaux)-1)]);
                 }   
                 $personne->setUser($user);
+                $user->setPersonne($personne);
                 $i++;
                 $manager->persist($personne);
+                $manager->persist($user);
             }
         }
         $manager->flush();

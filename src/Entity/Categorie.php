@@ -29,6 +29,10 @@ class Categorie
      */
     private $cadeaux;
 
+    public function __toString(){
+        return $this->nom;
+    }
+
     public function __construct()
     {
         $this->cadeaux = new ArrayCollection();

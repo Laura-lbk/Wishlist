@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * @Route("/adresse")
@@ -85,7 +86,7 @@ class AdresseController extends AbstractController
     public function delete(Request $request, Adresse $adresse): Response
     {
 
-        if(!$adresse->personne->isEmpty()){
+        if(!$adresse->getPersonne()->isEmpty()){
             throw new Exception('Vous n\'avez pas le droit de faire ceci ! (Suppression non autorisé car adresse habité)');
         }
 

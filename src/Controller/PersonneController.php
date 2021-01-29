@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Personne;
+use App\Entity\Cadeau;
 use App\Form\PersonneType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Repository\PersonneRepository;
 use App\Repository\AdresseRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -104,6 +106,39 @@ class PersonneController extends AbstractController
         return $this->render('personne/index.html.twig', [
             'personnes' => $personneRepository->findByRue($rue),
             'rues'=>$adresseRepository->findAllRue(),
+        ]);
+    }
+
+    /**
+     * @Route("/list/{id}", name="personne_list", methods={"GET","POST"})
+     */
+    public function listeCadeau(Request $request, Personne $personne): Response
+    {
+        $listcadeau= $personne->getCadeaux();
+
+        $form = $this->createFormBuilder($personne)
+                ->add('cadeaux', CheckboxType::class, ['Yes' => true,
+                'No' => false,])
+                ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            dd($personne);
+            foreach($personne->getCadeaux() as $cadeau )
+            {
+                $personne->addCadeaux($cadeau);
+            }
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('personne_index');
+        }
+        
+
+        return $this->render('personne/list.html.twig', [
+            'personne' => $personne,
+            'listcadeau' => $listcadeau,
+            'form' => $form->createView(),
         ]);
     }
 }
