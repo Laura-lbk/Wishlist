@@ -2,7 +2,10 @@
 
 {% block title %}Personne index{% endblock %}
 
+
 {% block body %}
+{% include 'base.html.twig' %}
+
     <h1>Personne index</h1>
 
     <p>Selectionnez une rue:</p>
@@ -36,7 +39,7 @@
                 <td>{% for cadeau in personne.cadeaux %} 
                     <p>{{cadeau}}</p>
                 {% endfor %}
-                <a href="{{ path('personne_show', {'id': personne.id}) }}">Voir Wishlist</a></td>
+                <a href="{{ path('personne_list', {'id': personne.id}) }}">Voir Wishlist</a></td>
                 <td>{{ personne.birthday ? personne.birthday|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('personne_show', {'id': personne.id}) }}">show</a>

@@ -17,6 +17,10 @@
             </tr>
                 <th>Parité</th>
                 <td>femmes : {{femmes / (hommes + femmes)}} <br> hommes: {{hommes / (hommes + femmes)}}</td>
+            <tr>
+                <th>Prix Moyen</th>
+                <td>{{ (moyenne.sommePrix / moyenne.nb) | round(2, 'floor') }} €</td>
+            </tr>
         </tbody>
     </table>
 
@@ -24,5 +28,7 @@
 
     <a href="{{ path('categorie_edit', {'id': categorie.id}) }}">edit</a>
 
+    {% if categorie.cadeaux is empty %}
     {{ include('categorie/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

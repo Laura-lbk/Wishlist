@@ -21,6 +21,7 @@ class CategorieController extends AbstractController
      */
     public function index(CategorieRepository $categorieRepository): Response
     {
+        
         return $this->render('categorie/index.html.twig', [
             'categories' => $categorieRepository->findAll(),
         ]);
@@ -52,10 +53,10 @@ class CategorieController extends AbstractController
     /**
      * @Route("/{id}", name="categorie_show", methods={"GET"})
      */
-    public function show(Categorie $categorie, CadeauRepository $cadeauRepository, String $id): Response
+    public function show(Categorie $categorie, CadeauRepository $cadeauRepository, CategorieRepository $categorieRepository, String $id): Response
     {
-
         return $this->render('categorie/show.html.twig', [
+            'moyenne' => $categorieRepository->prixMoyen($categorie->getId()),
             'femmes' => $cadeauRepository->findByGenre($categorie->getNom(), 'femme'),
             'hommes' => $cadeauRepository->findByGenre($categorie->getNom(), 'homme'),
             'categorie' => $categorie,
@@ -87,6 +88,12 @@ class CategorieController extends AbstractController
      */
     public function delete(Request $request, Categorie $categorie): Response
     {
+
+    if(!$categorie->getCadeaux()->isEmpty()){
+        throw new Exception('Vous n\'avez pas le droit de faire ceci ! (Suppression non autorisé car Catégorie Utilisée)');
+    };
+
+    
         if ($this->isCsrfTokenValid('delete'.$categorie->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($categorie);

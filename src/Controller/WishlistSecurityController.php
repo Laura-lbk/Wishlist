@@ -10,7 +10,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class WishlistSecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login")
+     * @Route("/", name="app_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -19,7 +19,7 @@ class WishlistSecurityController extends AbstractController
                 $id = $this->getUser()->getPersonne()->getId();
                 return $this->redirectToRoute('personne_list', ['id' => $id]);
             }else{
-                if($this->getUser()->getRoles() == ['ROLE_SECRETAIRE']){
+                if(in_array('ROLE_SECRETARIAT',$this->getUser()->getRoles())){
                     return $this->redirectToRoute('personne_index');
                 }else{
                     return $this->redirectToRoute('cadeau_index');

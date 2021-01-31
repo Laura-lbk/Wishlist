@@ -51,7 +51,7 @@ class Personne
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Cadeau::class, mappedBy="personne", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Cadeau::class, mappedBy="personne", orphanRemoval=true, cascade={"persist"})
      */
     private $cadeaux;
 

@@ -3,7 +3,8 @@
 {% block title %}Wishlist{% endblock %}
 
 {% block body %}
-    <h1>Edit Personne</h1>
+{% include 'base.html.twig' %}
+    <h1>Liste des Cadeaux</h1>
 
     {{ include('personne/_cadeau_form.html.twig', {'button_label': 'Update'}) }}
 

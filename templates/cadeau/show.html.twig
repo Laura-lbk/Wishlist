@@ -30,5 +30,7 @@
 
     <a href="{{ path('cadeau_edit', {'id': cadeau.id}) }}">edit</a>
 
+    {% if cadeau.personne is empty %}
     {{ include('cadeau/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

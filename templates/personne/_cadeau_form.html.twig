@@ -1,4 +1,8 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+
+{% for cadeaux in form.cadeaux %}
+    <p>{{ form_label(cadeaux) }}
+     {{ form_widget(cadeaux) }}</p>
+{% endfor %}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

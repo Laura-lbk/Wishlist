@@ -1,19 +1,48 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-        
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}
-        {% endblock %}
-        {% block javascripts %}
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
-        {% endblock %}
-    </body>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		{% block stylesheets %}
+			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+		{% endblock %}
+	</head>
+	<body>
+		{% block body %}
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+				<a class="navbar-brand" href="{{ path('app_logout') }}">Deconnexion</a>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						{% if is_granted('ROLE_SECRETARIAT') or is_granted('ROLE_ADMIN') %}
+							<li class="nav-item active">
+								<a class="nav-link" href="{{ path('personne_index') }}">Liste des Personnes</a>
+							</li>
+							<li class="nav-item active">
+								<a class="nav-link" href="{{ path('adresse_index') }}">Liste des Adresses</a>
+							</li>
+						{% endif %}
+						{% if is_granted('ROLE_STOCK') or is_granted('ROLE_ADMIN') %}
+							<li class="nav-item active">
+								<a class="nav-link" href="{{ path('cadeau_index') }}">Cadeaux</a>
+							</li>
+							<li class="nav-item active">
+								<a class="nav-link" href="{{ path('categorie_index') }}">Catégories</a>
+							</li>
+						{% endif %}
+					</ul>
+
+				</div>
+			</nav>
+		{% endblock %}
+		{% block javascripts %}
+			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+			<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+		{% endblock %}
+	</body>
 </html>

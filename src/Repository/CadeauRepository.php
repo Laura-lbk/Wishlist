@@ -33,6 +33,15 @@ class CadeauRepository extends ServiceEntityRepository
     ;
     }
 
+    public function findFreeCadeaux($id){
+        return $this->createQueryBuilder('c')
+        ->where('c.personne is NULL or c.personne = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getResult();
+    ;
+    }
+
 
     // /**
     //  * @return Cadeau[] Returns an array of Cadeau objects

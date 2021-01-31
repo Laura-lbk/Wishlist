@@ -19,14 +19,18 @@ class CategorieRepository extends ServiceEntityRepository
         parent::__construct($registry, Categorie::class);
     }
 
-    public function findFemme($nom){
+    public function prixMoyen($id){
         return $this->createQueryBuilder('c')
         ->leftJoin('c.cadeaux', 'cadeau')
-
+        ->where('c.id = :id')
+        ->setParameter('id', $id)
+        ->select('SUM(cadeau.prix) as sommePrix, count(c) as nb')
         ->getQuery()
-        ->getResult()
+        ->getSingleResult();
     ;
     }
+
+
 
     // /**
     //  * @return Categorie[] Returns an array of Categorie objects

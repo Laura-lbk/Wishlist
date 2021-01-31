@@ -8,6 +8,7 @@ use App\Form\PersonneType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Repository\PersonneRepository;
 use App\Repository\AdresseRepository;
+use App\Repository\CadeauRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -112,24 +113,35 @@ class PersonneController extends AbstractController
     /**
      * @Route("/list/{id}", name="personne_list", methods={"GET","POST"})
      */
-    public function listeCadeau(Request $request, Personne $personne): Response
+    public function listeCadeau(Request $request, Personne $personne, CadeauRepository $cadeauRepository): Response
     {
         $listcadeau= $personne->getCadeaux();
 
         $form = $this->createFormBuilder($personne)
-                ->add('cadeaux', CheckboxType::class, ['Yes' => true,
-                'No' => false,])
+                ->add('cadeaux',  EntityType::class, [
+                    // looks for choices from this entity
+                    'class' => Cadeau::class,
+                
+                    // uses the User.username property as the visible option string
+                    'choice_label' => 'nom',
+                    'choices' => $cadeauRepository->findFreeCadeaux($personne->getId()),
+                
+                    // used to render a select box, check boxes or radios
+                    'multiple' => true,
+                    'expanded' => true,
+                ])
                 ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($personne);
             foreach($personne->getCadeaux() as $cadeau )
             {
                 $personne->addCadeaux($cadeau);
             }
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($personne);
+            $em->flush();
 
             return $this->redirectToRoute('personne_index');
         }
